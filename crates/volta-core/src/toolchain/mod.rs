@@ -123,7 +123,7 @@ impl Toolchain {
         let path = volta_home()?.default_platform_file();
         let result = match &self.platform {
             Some(platform) => {
-                let src = serial::Platform::of(platform).into_json()?;
+                let src = String::try_from(serial::Platform::of(platform))?;
                 write(&path, src)
             }
             None => write(&path, "{}"),

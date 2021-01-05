@@ -112,11 +112,11 @@ fn clear_default_npm(platform_file: &Path) -> Fallible<()> {
             if let Ok(default_npm) = load_default_npm_version(&node_version.runtime) {
                 if *npm == default_npm {
                     node_version.npm = None;
-                    write(platform_file, existing_platform.into_json()?).with_context(|| {
-                        ErrorKind::WritePlatformError {
+                    write(platform_file, String::try_from(existing_platform)?).with_context(
+                        || ErrorKind::WritePlatformError {
                             file: platform_file.to_owned(),
-                        }
-                    })?;
+                        },
+                    )?;
                 }
             }
         }
